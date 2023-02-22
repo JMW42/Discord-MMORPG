@@ -1,6 +1,7 @@
 from distutils import extension
 from discord.ext import commands
 import discord, yaml
+from rpg import world, loader
 
 TOKEN:str = "none"
 VERSION:str = "xx.xx"
@@ -9,7 +10,7 @@ PREFIX = "-"
 
 
 bot = commands.Bot(command_prefix="-")
-
+WORLD = world.World("emptyworld", "emptytext")
 
 def load_config(file:str):
     global TOKEN, VERSION, COLOR_EMBED, PREFIX
@@ -18,7 +19,7 @@ def load_config(file:str):
         try:
             data = yaml.safe_load(stream)
             for key in data:
-                print(f"{key}: {data[key]}")
+                print(f"\t - {key}: {data[key]}")
             TOKEN = data["TOKEN"]
             VERSION = data["VERSION"]
             COLOR_EMBED = int(data["COLOR_EMBED"], 16)
@@ -88,6 +89,7 @@ async def info(ctx):
 if __name__ == '__main__':
 
     load_config("C:/data/Discord MMORPG/botconfig.yaml")
+    loader.load_word("data/stages.csv")
 
     bot.load_extension("cogs.controll")
     bot.run(TOKEN)
