@@ -1,0 +1,3 @@
+NAME: "testworld"
+DESCRIPTION: "testworld - the world for testing"
+STAGESFILE: "data/stages.csv"

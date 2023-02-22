@@ -1,7 +1,7 @@
 from distutils import extension
 from discord.ext import commands
 import discord, yaml
-from rpg import world, loader
+import config
 
 TOKEN:str = "none"
 VERSION:str = "xx.xx"
@@ -10,7 +10,7 @@ PREFIX = "-"
 
 
 bot = commands.Bot(command_prefix="-")
-WORLD = world.World("emptyworld", "emptytext")
+
 
 def load_config(file:str):
     global TOKEN, VERSION, COLOR_EMBED, PREFIX
@@ -64,7 +64,7 @@ async def info(ctx):
 
     embed.set_author(name=bot.user.name , url="https://www.google.com/", icon_url=bot.user.avatar_url)
     embed.set_thumbnail(url=bot.user.avatar_url)
-
+    	
     embed.add_field(name="Current Version", value=str(VERSION))
     embed.add_field(name="Connected Server", value=str(len(bot.guilds)), inline=True)
     embed.add_field(name="Active Private Chats", value=str(len(bot.private_channels)), inline=True)
@@ -89,9 +89,14 @@ async def info(ctx):
 if __name__ == '__main__':
 
     load_config("C:/data/Discord MMORPG/botconfig.yaml")
-    loader.load_word("data/stages.csv")
-
-    bot.load_extension("cogs.controll")
-    bot.run(TOKEN)
+    config.load_word( "data/world.yaml", "data/stages.csv")
     
+    print(config.WORLD.name)
+
+    print("Starting Bot:")
+    #bot.load_extension("cogs.controll")
+    #bot.load_extension("cogs.rpg")
+    #bot.run(TOKEN)
+    
+
     print("shutting down ....")
